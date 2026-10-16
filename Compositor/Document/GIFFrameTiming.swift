@@ -3,6 +3,9 @@ import Foundation
 nonisolated enum GIFDelayMode: String, CaseIterable, Codable, Sendable {
     case perFrame = "Frame delay"
     case uniform = "Same for all"
+
+    /// The localized name.
+    var localizedName: String { rawValue.localized }
 }
 
 /// Delays belong to editable frame identities; the encoded source stays immutable.

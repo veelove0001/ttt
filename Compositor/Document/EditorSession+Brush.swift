@@ -30,7 +30,7 @@ extension EditorSession {
             return "“\(layer.name)” is an adjustment layer, with no pixels to paint. Paint on its mask instead."
         }
         if !isMaskSelected, layer.liveVectorPath != nil {
-            return "“\(layer.name)” is an editable path, not a pixel layer. Use Fill Path or Stroke Path with Brush to create pixels."
+            return String.localizedStringWithFormat(NSLocalizedString("“%@” is an editable path, not a pixel layer. Use Fill Path or Stroke Path with Brush to create pixels.", comment: ""), layer.name)
         }
         if selection?.isEmpty == true {
             return "Nothing is selected, so there’s nowhere to paint. Choose Select › Deselect (⌘D) to paint anywhere."

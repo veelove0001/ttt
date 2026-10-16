@@ -51,6 +51,9 @@ nonisolated enum ShapeKind: String, CaseIterable, Codable, Sendable {
         path.closeSubpath()
         return path
     }
+
+    /// The localized name.
+    var localizedName: String { rawValue.localized }
 }
 
 /// What a shape layer draws, kept so the shape can be drawn again at a new size.
@@ -194,8 +197,8 @@ extension EditorSession {
     func nextShapeName(_ kind: ShapeKind) -> String {
         let names = Set(document?.layers.map(\.name) ?? [])
         var number = 1
-        while names.contains("\(kind.rawValue) \(number)") { number += 1 }
-        return "\(kind.rawValue) \(number)"
+        while names.contains(String.localizedStringWithFormat(NSLocalizedString("%@ %lld", comment: ""), kind.localizedName, number)) { number += 1 }
+        return String.localizedStringWithFormat(NSLocalizedString("%@ %lld", comment: ""), kind.localizedName, number)
     }
 
     /// A shape layer scaled to a new size draws its shape again at that size, so a rounded corner keeps its radius

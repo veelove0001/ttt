@@ -41,10 +41,10 @@ struct GIFFrameMaskCopyPopover: View {
             HStack {
                 Text("Copy to").foregroundStyle(.secondary)
                 Spacer()
-                Button("Select All") { selectedIndices = targetIndices }
+                Button("Select All".localized) { selectedIndices = targetIndices }
                     .disabled(selectedIndices == targetIndices)
                     .accessibilityIdentifier("gifMaskCopySelectAll")
-                Button("Clear") { selectedIndices = [] }
+                Button("Clear".localized) { selectedIndices = [] }
                     .disabled(selectedIndices.isEmpty)
                     .accessibilityIdentifier("gifMaskCopyClear")
             }
@@ -78,10 +78,10 @@ struct GIFFrameMaskCopyPopover: View {
                 .accessibilityIdentifier("gifMaskCopyReplacementSummary")
             Divider()
             HStack {
-                Button("Cancel", action: onCancel).configuredNativeShortcut(.escape)
+                Button("Cancel".localized, action: onCancel).configuredNativeShortcut(.escape)
                     .accessibilityIdentifier("gifMaskCopyCancel")
                 Spacer()
-                Button("Copy to \(selectedIndices.count) \(selectedIndices.count == 1 ? "Frame" : "Frames")") {
+                Button(String.localizedStringWithFormat(NSLocalizedString("Copy to %lld Frame", comment: ""), selectedIndices.count)) {
                     if onCopy(selectedIndices) { onCancel() }
                 }
                 .configuredNativeShortcut(.return)

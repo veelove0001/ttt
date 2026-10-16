@@ -27,13 +27,13 @@ struct GIFOnionSkinControls: View {
                     .contentShape(Rectangle())
             }
             .disabled(!preview.isEnabled)
-            .help("Choose a neighboring frame and adjust its opacity.")
+            .help("Choose a neighboring frame and adjust its opacity.".localized)
             .accessibilityLabel("Onion skin settings")
             .accessibilityIdentifier("gifOnionSkinSettings")
             .popover(isPresented: $showsSettings) {
                 VStack(alignment: .leading, spacing: 12) {
                     Text("Onion Skin").font(.headline)
-                    Picker("Preview", selection: $preview.direction) {
+                    Picker("Preview".localized, selection: $preview.direction) {
                         ForEach(GIFOnionSkinPreview.Direction.allCases, id: \.self) { Text($0.rawValue).tag($0) }
                     }
                     .font(ToolHeaderStyle.controlFont)

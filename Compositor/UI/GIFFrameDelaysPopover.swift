@@ -14,9 +14,9 @@ struct GIFFrameDelaysPopover: View {
             HStack {
                 Text("Frame delays").font(.headline)
                 Spacer()
-                Button("Reset All") { drafts = [:]; timing.frameDelays = [:] }
+                Button("Reset All".localized) { drafts = [:]; timing.frameDelays = [:] }
                     .disabled(timing.frameDelays.isEmpty)
-                    .help("Restore every frame's imported delay.")
+                    .help("Restore every frame's imported delay.".localized)
             }
             Text("Delays before playback speed is applied.").foregroundStyle(.secondary)
             Divider()
@@ -43,7 +43,7 @@ struct GIFFrameDelaysPopover: View {
             HStack {
                 Text(scope).foregroundStyle(.secondary)
                 Spacer()
-                Button("Done") { finishEdits(); focusedFrame = nil; dismiss() }
+                Button("Done".localized) { finishEdits(); focusedFrame = nil; dismiss() }
             }
         }
         .padding(16).frame(width: 370).roundedControls()

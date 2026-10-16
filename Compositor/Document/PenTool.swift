@@ -25,6 +25,9 @@ nonisolated enum PenAction: String, CaseIterable, Sendable {
             "Drag the circular eraser across the selected path · [ ] size · Right-drag size · Escape returns to Draw · ⌘Z undo"
         }
     }
+
+    /// The localized name.
+    var localizedName: String { rawValue.localized }
 }
 
 nonisolated struct VectorPathNode: Codable, Equatable, Sendable {
@@ -1128,8 +1131,8 @@ extension EditorSession {
     private func nextPenResultName(_ base: String) -> String {
         let names = Set(document?.layers.map(\.name) ?? [])
         var number = 1
-        while names.contains("\(base) \(number)") { number += 1 }
-        return "\(base) \(number)"
+        while names.contains(String.localizedStringWithFormat(NSLocalizedString("Path %d", comment: ""), number)) { number += 1 }
+        return String.localizedStringWithFormat(NSLocalizedString("Path %d", comment: ""), number)
     }
 
     private func editablePenPaths() -> [(ImageLayer, LayerVectorPath, [VectorPathNode])] {

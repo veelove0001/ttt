@@ -176,10 +176,10 @@ extension CommandPaletteEntry {
         let canAdd = session.canEditMask && session.activeLayer?.mask == nil
         let selected = session.selection != nil
         return [
-            CommandPaletteEntry(id: selected ? "Layer › Add Layer Mask from Selection" : "Layer › Add Layer Mask",
+            CommandPaletteEntry(id: (selected ? "Layer › Add Layer Mask from Selection" : "Layer › Add Layer Mask").localized,
                                 shortcut: nil, isEnabled: canAdd,
                                 perform: { [weak session] in session?.addMask(revealing: true) }),
-            CommandPaletteEntry(id: selected ? "Layer › Add Layer Mask Hiding Selection" : "Layer › Add Layer Mask (Hide All)",
+            CommandPaletteEntry(id: (selected ? "Layer › Add Layer Mask Hiding Selection" : "Layer › Add Layer Mask (Hide All)").localized,
                                 shortcut: nil, isEnabled: canAdd,
                                 perform: { [weak session] in session?.addMask(revealing: false) }),
         ]
@@ -217,7 +217,7 @@ extension CommandPaletteEntry {
             ("Zoom", "Z", .zoom, nil),
         ]
         return tools.map { name, key, tool, setup in
-            CommandPaletteEntry(id: "Tool › \(name)", shortcut: key, isEnabled: session.document != nil,
+            CommandPaletteEntry(id: String.localizedStringWithFormat(NSLocalizedString("Tool › %@", comment: ""), name.localized), shortcut: key, isEnabled: session.document != nil,
                                 perform: { [weak session] in
                                     guard let session else { return }
                                     session.selectTool(tool)

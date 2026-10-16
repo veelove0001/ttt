@@ -15,7 +15,7 @@ struct GIFDelayControls: View {
 
     var body: some View {
         HStack(spacing: 8) {
-            Picker("Delay", selection: Binding(get: { timing.mode }, set: { mode in
+            Picker("Delay".localized, selection: Binding(get: { timing.mode }, set: { mode in
                 var updated = timing
                 let previous = timing.uniformDelay * 1000
                 let value = GIFDelayField.confirmedMilliseconds(uniformDraft, previous: previous)
@@ -28,7 +28,7 @@ struct GIFDelayControls: View {
                 ForEach(GIFDelayMode.allCases, id: \.self) { Text($0.rawValue).tag($0) }
             }
             .frame(width: 170)
-            .help("Use each frame's delay or one delay for every frame.")
+            .help("Use each frame's delay or one delay for every frame.".localized)
             .accessibilityIdentifier("gifTimelineDelayMode")
             if timing.mode == .uniform {
                 GIFDelayField(milliseconds: Binding(get: { timing.uniformDelay * 1000 }, set: { value in
@@ -37,17 +37,17 @@ struct GIFDelayControls: View {
                     onChange(updated)
                 }), draft: $uniformDraft, focus: $focusedDelay, index: 0, step: 1, alignment: .leading, unitSpacing: 8)
                     .frame(width: 88)
-                    .help("Delay for every frame in milliseconds, before preview speed is applied.")
+                    .help("Delay for every frame in milliseconds, before preview speed is applied.".localized)
                     .accessibilityLabel("Delay for every frame in milliseconds")
                     .accessibilityIdentifier("gifTimelineUniformDelay")
             } else {
-                Button("Edit…") {
+                Button("Edit…".localized) {
                     onStopPlayback()
                     frameDraft = timing
                     frameDelayDrafts = [:]
                     showsFrameDelays = true
                 }
-                .help("Edit individual frame delays.")
+                .help("Edit individual frame delays.".localized)
                 .accessibilityIdentifier("gifTimelineEditDelays")
                 .popover(isPresented: $showsFrameDelays) {
                     GIFFrameDelaysPopover(frames: frames, timing: $frameDraft, drafts: $frameDelayDrafts,

@@ -128,7 +128,7 @@ struct GIFTimeline: View {
                 Image(systemName: "arrow.left.and.right")
                     .font(.system(size: 10, weight: .medium))
                     .foregroundStyle(.tertiary)
-                    .help("Command-drag across thumbnails to select frames. Drag a thumbnail to reorder, or empty space to scroll.")
+                    .help("Command-drag across thumbnails to select frames. Drag a thumbnail to reorder, or empty space to scroll.".localized)
                     .accessibilityHidden(true)
                 Text(isFrameMaskSelected ? "Editing mask" : "Editing frame")
                     .font(.system(size: 11))
@@ -414,7 +414,7 @@ struct GIFTimeline: View {
                     .accessibilityElement()
                     .accessibilityLabel("Timeline scrollbar")
                     .accessibilityValue("\(Int((scrollOffset / Self.frameStride).rounded()) + 1) of \(frames.count)")
-                    .help("Drag to scroll through animation frames")
+                    .help("Drag to scroll through animation frames".localized)
             }
             .frame(height: 14)
             .padding(.horizontal, 12)
@@ -506,10 +506,10 @@ struct GIFTimeline: View {
         let canDeleteMasks = canEditFrameMask && !targets.isDisjoint(with: frameMaskIndices)
         let canDeleteFrames = canEditFrames && targets.count < frames.count
         if canAddMasks {
-            Button("Add Masks") { Task { await onAddFrameMasks(targets) } }
+            Button("Add Masks".localized) { Task { await onAddFrameMasks(targets) } }
         }
         if canDeleteMasks {
-            Button("Delete Masks", role: .destructive) { onDeleteFrameMasks(targets) }
+            Button("Delete Masks".localized, role: .destructive) { onDeleteFrameMasks(targets) }
         }
         if canAddMasks || canDeleteMasks { Divider() }
         Button("Delete \(targets.count) Frames", role: .destructive) {
@@ -520,20 +520,20 @@ struct GIFTimeline: View {
 
     @ViewBuilder private func singleFrameMenu(_ frame: GIFTimelineFrame) -> some View {
         if frameMaskIndices.contains(frame.index) {
-            Button("Delete Mask") { onDeleteFrameMask(frame.index) }
+            Button("Delete Mask".localized) { onDeleteFrameMask(frame.index) }
                 .disabled(!canEditFrameMask)
         } else {
-            Button("Add Mask") { Task { await onAddFrameMask(frame.index) } }
+            Button("Add Mask".localized) { Task { await onAddFrameMask(frame.index) } }
                 .disabled(!canEditFrameMask)
         }
         Button(enabledFrameMaskIndices.contains(frame.index) ? "Disable Mask" : "Enable Mask") {
             onToggleFrameMaskEnabledAtIndex(frame.index)
         }
         .disabled(!canEditFrameMask || !frameMaskIndices.contains(frame.index))
-        Button("Copy Mask to Frames…") { maskCopyRequest = onPrepareFrameMaskCopy(frame.index) }
+        Button("Copy Mask to Frames…".localized) { maskCopyRequest = onPrepareFrameMaskCopy(frame.index) }
             .disabled(!canEditFrameMask || !frameMaskIndices.contains(frame.index) || frames.count <= 1)
         Divider()
-        Button("Duplicate Frame") { Task { await onDuplicateFrame(frame.index) } }
+        Button("Duplicate Frame".localized) { Task { await onDuplicateFrame(frame.index) } }
             .disabled(!canEditFrames || frames.count >= GIFTimelineLimits.maxFrames)
         Button("Delete Frame", role: .destructive) { Task { await onDeleteFrames([frame.index]) } }
             .disabled(!canEditFrames || frames.count <= 1)

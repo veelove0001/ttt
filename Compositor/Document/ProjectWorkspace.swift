@@ -244,7 +244,7 @@ final class ProjectWorkspace {
         let added = copied.reduce(0) { $0 + ($1.asset.map { $0.image.width * $0.image.height } ?? 0) }
         guard used + added <= DocumentLimits.documentPixelBudget else { target.session.importError = "The copied layers exceed this project’s \(DocumentLimits.documentBudgetMegapixels)-megapixel limit."; return }
         guard target.session.canRetainGIFSources(in: (target.session.document?.layers ?? []) + copied) else {
-            target.session.importError = "The copied GIFs exceed this project’s animation memory limit."
+            target.session.importError = "The copied GIFs exceed this project’s animation memory limit.".localized
             return
         }
         isManaging = true

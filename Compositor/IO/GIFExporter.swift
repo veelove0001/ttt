@@ -20,9 +20,9 @@ nonisolated enum GIFExportError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .tooLarge:
-            "Animation export supports up to \(GIFTimelineLimits.maxFrames.formatted()) frames, \(GIFExporter.pixelBudget / 1_000_000) megapixels across all exported frames, and 512 MiB of encoded data. Reduce the export size or frame count."
-        case .invalidTimeline: "The selected animation timeline is missing or invalid."
-        case .invalidTiming: "Frame delays must be 20–655,350 ms, with export speed between 0.25× and 4×. Use a shorter delay or faster speed if an exported delay exceeds 655,350 ms."
+            String.localizedStringWithFormat(NSLocalizedString("Animation export supports up to %@ frames, %lld megapixels across all exported frames, and 512 MiB of encoded data. Reduce the export size or frame count.", comment: ""), GIFTimelineLimits.maxFrames.formatted(), GIFExporter.pixelBudget / 1_000_000)
+        case .invalidTimeline: String.localizedStringWithFormat(NSLocalizedString("The selected animation timeline is missing or invalid.", comment: ""))
+        case .invalidTiming: String.localizedStringWithFormat(NSLocalizedString("Frame delays must be 20–655,350 ms, with export speed between 0.25× and 4×. Use a shorter delay or faster speed if an exported delay exceeds 655,350 ms.", comment: ""))
         }
     }
 }

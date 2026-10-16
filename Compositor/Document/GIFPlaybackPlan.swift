@@ -3,6 +3,9 @@ import Foundation
 nonisolated enum GIFPlaybackScope: String, Sendable {
     case selected = "This GIF"
     case all = "All"
+
+    /// The localized name.
+    var localizedName: String { rawValue.localized }
 }
 
 /// Preview frame times, without decoding images or constructing every combined output frame.

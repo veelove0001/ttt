@@ -8,7 +8,10 @@ final class GIFOnionSkinPreview {
     enum Direction: String, CaseIterable {
         case previous = "Previous frame"
         case next = "Next frame"
-    }
+    
+        /// The localized name.
+        var localizedName: String { rawValue.localized }
+}
 
     var isEnabled = false
     var opacity = 0.25

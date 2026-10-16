@@ -65,9 +65,9 @@ nonisolated enum ImageImportError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .unreadable: "The image could not be read. It may be damaged or unavailable."
-        case .unsupported: "Choose a JPEG, PNG, GIF, HEIC, HEIF, TIFF, WebP, or Photoshop (PSD) file."
+        case .unsupported: "Choose a JPEG, PNG, GIF, HEIC, HEIF, TIFF, WebP, or Photoshop (PSD) file.".localized
         case .tooLarge: "This import exceeds the current \(DocumentLimits.documentBudgetMegapixels)-megapixel document budget or \(DocumentLimits.maxSide.formatted())-pixel side limit."
-        case .tooManyFrames: "This animation has more than \(GIFTimelineLimits.maxFrames.formatted()) frames, which exceeds the current timeline limit."
+        case .tooManyFrames: String.localizedStringWithFormat(NSLocalizedString("This animation has more than %@ frames, which exceeds the current timeline limit.", comment: ""), GIFTimelineLimits.maxFrames.formatted())
         }
     }
 }

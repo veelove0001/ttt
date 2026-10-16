@@ -106,8 +106,8 @@ struct ExportAsSheet: View {
                         .help(isGIFPreviewPlaying ? "Pause the animation preview." : "Play the animation preview.")
                         .accessibilityLabel(isGIFPreviewPlaying ? "Pause animation preview" : "Play animation preview")
                 }
-                Button("Fit") { zoom = nil }.disabled(zoom == nil)
-                    .help("Show the whole image (⌘0)")
+                Button("Fit".localized) { zoom = nil }.disabled(zoom == nil)
+                    .help("Show the whole image (⌘0)".localized)
                 Button { zoomBy(1) } label: { Image(systemName: "plus.magnifyingglass") }
                     .disabled(JPEGPreview.step(from: shownZoom, in: 1) == nil)
                     .help("Zoom in (⌘+), now \(percent). At 100% each pixel of the export is one pixel of the screen")
@@ -126,14 +126,14 @@ struct ExportAsSheet: View {
                     ProgressView().padding().background(.regularMaterial, in: RoundedRectangle(cornerRadius: 8))
                 }
             }.frame(width: JPEGPreview.frame.width, height: JPEGPreview.frame.height).clipped()
-                .help("Enabled masks apply here, as on the canvas. Drag or scroll to move around; double-click switches between Fit and 100%.")
+                .help("Enabled masks apply here, as on the canvas. Drag or scroll to move around; double-click switches between Fit and 100%.".localized)
             Grid(alignment: .leadingFirstTextBaseline, horizontalSpacing: 12, verticalSpacing: 12) {
                 GridRow {
                     Text("Format")
                     // The everyday formats side by side, JPEG first; the rest (PDF, and EXR with an HDR layer) in a menu beside them,
                     // which takes the chosen one's name.
                     HStack(spacing: 12) {
-                        Picker("Format", selection: $format) {
+                        Picker("Format".localized, selection: $format) {
                             ForEach([ExportFormat.jpeg, .png], id: \.self) { Text($0.rawValue).tag($0) }
                         }
                         .pickerStyle(.segmented).labelsHidden().fixedSize()
@@ -143,16 +143,16 @@ struct ExportAsSheet: View {
                 GridRow {
                     Text("Size")
                     HStack(spacing: 6) {
-                        sizeField(width, set: setWidth).help("Width in pixels; the height follows, keeping the proportions")
+                        sizeField(width, set: setWidth).help("Width in pixels; the height follows, keeping the proportions".localized)
                         Text("×").foregroundStyle(.secondary)
-                        sizeField(height, set: setHeight).help("Height in pixels; the width follows, keeping the proportions")
+                        sizeField(height, set: setHeight).help("Height in pixels; the width follows, keeping the proportions".localized)
                         Text("px").foregroundStyle(.secondary)
                         Menu("\(scalePercent)%") {
                             ForEach([25, 50, 75, 100, 200], id: \.self) { percent in
                                 Button("\(percent)%") { setScale(Double(percent) / 100) }
                             }
                         }
-                        .fixedSize().help("Scale the export: the document stays as it is")
+                        .fixedSize().help("Scale the export: the document stays as it is".localized)
                     }
                 }
                 if format == .jpeg {
@@ -195,13 +195,13 @@ struct ExportAsSheet: View {
                     if !snapshot.gifExportLayers.isEmpty {
                         GridRow {
                             Text("Timeline")
-                            Picker("Timeline", selection: $gifOptions.layerID) {
+                            Picker("Timeline".localized, selection: $gifOptions.layerID) {
                                 Text("All").tag(nil as UUID?)
                                 ForEach(snapshot.gifExportLayers, id: \.id) { layer in
                                     Text(layer.name).tag(Optional(layer.id))
                                 }
                             }.labelsHidden().fixedSize()
-                                .help("All animates visible timelines through the longest one; shorter animations hold their last frame. Choose one to animate it alone.")
+                                .help("All animates visible timelines through the longest one; shorter animations hold their last frame. Choose one to animate it alone.".localized)
                                 .accessibilityIdentifier("gifExportTimeline")
                         }
                     }
@@ -209,17 +209,17 @@ struct ExportAsSheet: View {
                         Text("Delay")
                         if gifOptions.layerID == nil, !snapshot.gifExportLayers.isEmpty {
                             Text("Saved timeline delays").foregroundStyle(.secondary)
-                                .help("Each animation uses its own saved delays. Shorter animations hold their last frame.")
+                                .help("Each animation uses its own saved delays. Shorter animations hold their last frame.".localized)
                         } else {
                             HStack(spacing: 8) {
-                                Picker("Delay", selection: gifDelaySettings.mode) {
+                                Picker("Delay".localized, selection: gifDelaySettings.mode) {
                                     ForEach(GIFDelayMode.allCases, id: \.self) { Text($0.rawValue).tag($0) }
                                 }.pickerStyle(.segmented).labelsHidden().fixedSize()
                                     .accessibilityIdentifier("gifExportDelayMode")
                                 if gifDelaySettings.wrappedValue.mode == .perFrame {
                                     Text(gifSourceDelaySummary).foregroundStyle(.secondary).monospacedDigit()
-                                    Button("Edit…") { gifFrameDrafts = [:]; showsGIFFrameDelays = true }
-                                        .help("Change individual frame delays for this export.")
+                                    Button("Edit…".localized) { gifFrameDrafts = [:]; showsGIFFrameDelays = true }
+                                        .help("Change individual frame delays for this export.".localized)
                                         .accessibilityIdentifier("gifExportEditDelays")
                                         .popover(isPresented: $showsGIFFrameDelays) {
                                             GIFFrameDelaysPopover(frames: gifFrames, timing: gifFrameDelaySettings, drafts: $gifFrameDrafts)
@@ -228,7 +228,7 @@ struct ExportAsSheet: View {
                                     GIFDelayField(milliseconds: gifDelayMilliseconds, draft: $gifUniformDraft,
                                                   focus: $focusedGIFDelay, index: 0, scrubsUnit: true)
                                         .frame(width: 80)
-                                        .help("Delay for every frame before export speed is applied.")
+                                        .help("Delay for every frame before export speed is applied.".localized)
                                         .accessibilityLabel("Delay for every frame in milliseconds")
                                         .accessibilityIdentifier("gifExportUniformDelay")
                                 }
@@ -240,14 +240,14 @@ struct ExportAsSheet: View {
                         HStack(spacing: 8) {
                             Slider(value: gifSpeedPosition, in: GIFPlaybackSpeed.sliderRange)
                                 .frame(width: 220)
-                                .help("Scale export timing. The center is normal speed.")
+                                .help("Scale export timing. The center is normal speed.".localized)
                                 .accessibilityLabel("Animation export playback speed")
                                 .accessibilityValue("\(gifSpeedLabel) times")
                                 .accessibilityIdentifier("gifExportSpeed")
                             Button { gifOptions.timing.speedMultiplier = 1 } label: {
                                 Text("\(gifSpeedLabel)×").monospacedDigit().frame(width: 44)
                             }
-                            .help("Reset export speed to 1.0×.")
+                            .help("Reset export speed to 1.0×.".localized)
                             if gifSchedule?.usesMinimumDelay == true {
                                 Text("Minimum delay: 20 ms").font(.caption).foregroundStyle(.secondary)
                             }
@@ -255,7 +255,7 @@ struct ExportAsSheet: View {
                     }
                     GridRow {
                         Text("Loop")
-                        Picker("Loop", selection: $gifOptions.loopsForever) {
+                        Picker("Loop".localized, selection: $gifOptions.loopsForever) {
                             Text("Forever").tag(true)
                             Text("Once").tag(false)
                         }.pickerStyle(.segmented).labelsHidden().fixedSize()
@@ -263,7 +263,7 @@ struct ExportAsSheet: View {
                     }
                     GridRow {
                         Text("Transparency")
-                        Toggle("Keep transparent areas", isOn: $gifOptions.keepsTransparency)
+                        Toggle("Keep transparent areas".localized, isOn: $gifOptions.keepsTransparency)
                             .help("GIF keeps fully transparent or opaque pixels; soft edges use a 50% threshold.")
                     }
                     GridRow {
@@ -276,7 +276,7 @@ struct ExportAsSheet: View {
                     GridRow {
                         Text("Background")
                         DialogColorSwatch(title: "Export Background", color: format == .gif ? gifMatte : matte, session: session)
-                            .help("Color that fills transparent areas")
+                            .help("Color that fills transparent areas".localized)
                     }
                 }
             }
@@ -292,8 +292,8 @@ struct ExportAsSheet: View {
                     Text(format == .gif ? gifProgress.map { "Encoding frame \(min($0.completed + 1, $0.total)) of \($0.total)…" } ?? "Updating…" : "Updating…")
                         .foregroundStyle(.secondary).monospacedDigit()
                 }
-                Button("Cancel") { DialogColorSwatch.closePicker(session); finish(nil) }.configuredNativeShortcut(.escape)
-                Button("Export…") {
+                Button("Cancel".localized) { DialogColorSwatch.closePicker(session); finish(nil) }.configuredNativeShortcut(.escape)
+                Button("Export…".localized) {
                     DialogColorSwatch.closePicker(session)
                     if format == .jpeg { UserDefaults.standard.set(options.quality, forKey: Self.qualityKey) }
                     if let result { finish((result.data, result.settings.format)) }
@@ -460,7 +460,7 @@ struct ExportAsSheet: View {
     /// the line under the settings.
     private var colorMenu: some View {
         Menu(cmyk ? "CMYK" : "RGB") {
-            Toggle("RGB", isOn: Binding(get: { !cmyk }, set: { if $0 { cmyk = false } }))
+            Toggle("RGB".localized, isOn: Binding(get: { !cmyk }, set: { if $0 { cmyk = false } }))
             Toggle("CMYK", isOn: Binding(get: { cmyk }, set: { if $0 { cmyk = true } }))
         }
         .menuStyle(.button).buttonStyle(.bordered).fixedSize()

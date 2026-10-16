@@ -4,6 +4,9 @@ nonisolated enum SpotHealingMode: String, CaseIterable, Sendable, Hashable {
     case contentAware = "Content-Aware"
     case createTexture = "Create Texture"
     case proximityMatch = "Proximity Match"
+
+    /// The localized name.
+    var localizedName: String { rawValue.localized }
 }
 
 nonisolated struct BrushSettings: Sendable {
@@ -34,7 +37,7 @@ nonisolated struct BrushPatch: @unchecked Sendable {
 nonisolated enum BrushStrokeError: LocalizedError {
     case pathTooComplex
     var errorDescription: String? {
-        "This path is too complex to stroke safely. Reduce its points, shorten it, or use a larger brush."
+        "This path is too complex to stroke safely. Reduce its points, shorten it, or use a larger brush.".localized
     }
 }
 

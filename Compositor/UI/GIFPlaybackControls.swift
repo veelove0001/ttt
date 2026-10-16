@@ -68,7 +68,7 @@ struct GIFPlaybackSpeedControl: View {
                 .tint(Color(white: 0.76))
                 .frame(minWidth: 60, idealWidth: 100, maxWidth: 100)
                 .disabled(!canPlay)
-                .help("Drag to change playback speed.")
+                .help("Drag to change playback speed.".localized)
                 .accessibilityLabel("Animation playback speed")
                 .accessibilityValue("\(playbackSpeed.multiplier.formatted(.number.precision(.fractionLength(1...2)))) times")
                 .accessibilityIdentifier("gifPlaybackSpeed")
@@ -81,7 +81,7 @@ struct GIFPlaybackSpeedControl: View {
             }
             .buttonStyle(.plain)
             .disabled(!canPlay)
-            .help("Reset playback speed to 1.0×.")
+            .help("Reset playback speed to 1.0×.".localized)
             .accessibilityLabel("Reset animation playback speed")
             .accessibilityValue("\(playbackSpeed.multiplier.formatted(.number.precision(.fractionLength(1...2)))) times")
             .accessibilityIdentifier("gifPlaybackSpeedValue")
